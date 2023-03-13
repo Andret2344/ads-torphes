@@ -1,0 +1,8 @@
+/sonarlint/
+/modules/
+
+/gradle.xml
+/intellij-javadocs-4.0.1.xml
+/jarRepositories.xml
+/jpa-buddy.xml
+/workspace.xml

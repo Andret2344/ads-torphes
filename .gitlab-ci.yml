@@ -1,0 +1,11 @@
+image: gradle:8-jdk17
+
+before_script:
+  - chmod u+x gradlew*
+
+gradle:
+  script:
+    - ./gradlew jar
+  artifacts:
+    paths:
+      - build/libs/*.jar
