@@ -28,6 +28,10 @@ jar {
 		attributes["Main-Class"] = 'eu.andret.bot.discord.torphes.Torphes'
 	}
 
+	into 'resources', {
+		from 'resources'
+	}
+
 	from {
 		configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
 	}
