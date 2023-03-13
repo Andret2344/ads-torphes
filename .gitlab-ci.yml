@@ -5,6 +5,9 @@ before_script:
 
 gradle:
   script:
+    - ls -laF src/main/resources
+    - mv $CONFIG_PROPERTIES src/main/resources/config.properties
+    - ls -laF src/main/resources
     - ./gradlew build
   artifacts:
     paths:
