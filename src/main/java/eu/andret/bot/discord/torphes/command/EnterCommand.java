@@ -18,16 +18,21 @@ import java.util.stream.Collectors;
 public class EnterCommand extends ListenerAdapter {
 	@Override
 	public void onSlashCommandInteraction(@NotNull final SlashCommandInteractionEvent event) {
-		if (event.getName().equals("enter")) {
-			event.deferReply().queue();
-			final List<Message> messages = getTodayMessages(event);
-			final String mostMessages = getMostMessages(messages);
-			final String mostSubsequentMessages = getMostSubsequentMessages(messages);
-			final String format = "=== TOP 10 USERS - MOST MESSAGES TODAY ===```\n%s\n```\n=== TOP 10 USERS: MOST SUBSEQUENT MESSAGES TODAY ===```\n%s\n```";
-			final String message = String.format(format, mostMessages, mostSubsequentMessages);
-			event.getHook().sendMessage(message).queue();
+		if (!event.getName().equals("enter")) {
+			event.reply("Huh?").queue();
+			return;
 		}
-		event.reply("Huh?").queue();
+		event.deferReply().queue();
+		final List<Message> messages = getTodayMessages(event);
+		if (messages.isEmpty()) {
+			event.getHook().sendMessage("No messages to count today!").queue();
+			return;
+		}
+		final String mostMessages = getMostMessages(messages);
+		final String mostSubsequentMessages = getMostSubsequentMessages(messages);
+		final String format = "=== TOP 10 USERS — MOST MESSAGES TODAY ===```\n%s\n```\n=== TOP 10 USERS — MOST SUBSEQUENT MESSAGES TODAY ===```\n%s\n```";
+		final String message = String.format(format, mostMessages, mostSubsequentMessages);
+		event.getHook().sendMessage(message).queue();
 	}
 
 	@NotNull
@@ -66,7 +71,7 @@ public class EnterCommand extends ListenerAdapter {
 				.stream()
 				.limit(10)
 				.sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
-				.map(entry -> String.format("%s - %s", entry.getKey(), entry.getValue()))
+				.map(entry -> String.format("%05d\t%s", entry.getValue(), entry.getKey()))
 				.collect(Collectors.joining("\n"));
 	}
 
