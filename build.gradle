@@ -19,3 +19,15 @@ application {
 dependencies {
 	implementation group: 'net.dv8tion', name: 'JDA', version: '5.0.0-beta.5'
 }
+
+jar {
+	duplicatesStrategy(DuplicatesStrategy.WARN)
+
+	manifest {
+		attributes["Main-Class"] = 'eu.andret.bot.discord.torphes.Torphes'
+	}
+
+	from {
+		configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+	}
+}
