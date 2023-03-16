@@ -1,9 +1,14 @@
 image: gradle:8-jdk17
 
+stages:
+  - build
+  - publish
+
 before_script:
   - chmod u+x gradlew*
 
 gradle:
+  stage: build
   script:
     - ls -laF src/main/resources
     - mv $CONFIG_PROPERTIES src/main/resources/config.properties
@@ -12,3 +17,12 @@ gradle:
   artifacts:
     paths:
       - build/libs/*.jar
+
+docker:
+  image: docker:23-cli
+  stage: publish
+  script:
+    #    - docker image build -t torphes:latest .
+    - version=$(gradle properties -q | grep "version:" | awk '{print $2}')
+    - echo $version
+#    - docker tag torphes:latest andret-discord-solutions/torphes:v0.1.0
