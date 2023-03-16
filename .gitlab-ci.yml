@@ -1,5 +1,8 @@
 image: gradle:8-jdk17
 
+variables:
+  version: 0.1.0
+
 stages:
   - build
   - publish
@@ -12,7 +15,6 @@ gradle:
   script:
     - mv $CONFIG_PROPERTIES src/main/resources/config.properties
     - ./gradlew build
-    - version=$(gradle properties -q | grep "version:" | awk '{print $2}')
   artifacts:
     paths:
       - build/libs/*.jar
@@ -25,4 +27,8 @@ docker:
   script:
     #    - docker image build -t torphes:latest .
     - echo $version
-#    - docker tag torphes:latest andret-discord-solutions/torphes:v0.1.0
+  #    - docker tag torphes:latest andret-discord-solutions/torphes:v0.1.0
+#  rules:
+#    - if: '$CI_COMMIT_BRANCH == "master"'
+#      when: manual
+#    - when: never
