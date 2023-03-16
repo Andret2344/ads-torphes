@@ -26,9 +26,9 @@ docker:
     - gradle
   script:
     #- docker image build -t torphes:latest .
-    - echo v$(version)
+    - echo v$version
       #- docker tag torphes:latest andret-discord-solutions/torphes:v$(version)
       #  rules:
-      #    - if: '$CI_COMMIT_BRANCH == "master"'
+    #    - if: '$CI_COMMIT_BRANCH == "master"'
     #      when: manual
     #    - when: never
