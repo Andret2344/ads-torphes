@@ -10,10 +10,9 @@ before_script:
 gradle:
   stage: build
   script:
-    - ls -laF src/main/resources
     - mv $CONFIG_PROPERTIES src/main/resources/config.properties
-    - ls -laF src/main/resources
     - ./gradlew build
+    - version=$(gradle properties -q | grep "version:" | awk '{print $2}')
   artifacts:
     paths:
       - build/libs/*.jar
@@ -21,8 +20,9 @@ gradle:
 docker:
   image: docker:23-cli
   stage: publish
+  dependencies:
+    - gradle
   script:
     #    - docker image build -t torphes:latest .
-    - version=$(gradle properties -q | grep "version:" | awk '{print $2}')
     - echo $version
 #    - docker tag torphes:latest andret-discord-solutions/torphes:v0.1.0
