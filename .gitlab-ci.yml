@@ -1,14 +1,39 @@
 image: gradle:8-jdk17
 
+variables:
+  version: 0.1.0
+  name: registry.gitlab.com/andret-discord-solutions/torphes
+
+stages:
+  - build
+  - publish
+
 before_script:
   - chmod u+x gradlew*
 
 gradle:
+  stage: build
   script:
-    - ls -laF src/main/resources
     - mv $CONFIG_PROPERTIES src/main/resources/config.properties
-    - ls -laF src/main/resources
     - ./gradlew build
   artifacts:
     paths:
       - build/libs/*.jar
+
+docker:
+  image: docker:23-cli
+  stage: publish
+  services:
+    - docker:dind
+  dependencies:
+    - gradle
+  script:
+    - docker login registry.gitlab.com -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+    - docker build -t $name .
+    - docker tag $name:latest $name:v$version
+    - docker push $name:v$version
+    - docker push $name:latest
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "master"'
+      when: manual
+    - when: never
