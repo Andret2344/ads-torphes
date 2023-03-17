@@ -29,7 +29,7 @@ docker:
     - docker build -t registry.gitlab.com/andret-discord-solutions/torphes .
     - docker tag torphes:latest registry.gitlab.com/andret-discord-solutions/torphes:v$version
     - docker push registry.gitlab.com/andret-discord-solutions/torphes:v$version
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "master"'
-      when: manual
-    - when: never
+#  rules:
+#    - if: '$CI_COMMIT_BRANCH == "master"'
+#      when: manual
+#    - when: never
