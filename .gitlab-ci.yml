@@ -22,6 +22,8 @@ gradle:
 docker:
   image: docker:23-cli
   stage: publish
+  services:
+    - docker:dind
   dependencies:
     - gradle
   script:
