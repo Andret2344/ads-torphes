@@ -2,6 +2,7 @@ image: gradle:8-jdk17
 
 variables:
   version: 0.1.0
+  name: registry.gitlab.com/andret-discord-solutions/torphes
 
 stages:
   - build
@@ -28,9 +29,9 @@ docker:
     - gradle
   script:
     - docker login registry.gitlab.com -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-    - docker build -t registry.gitlab.com/andret-discord-solutions/torphes .
-    - docker tag torphes:latest registry.gitlab.com/andret-discord-solutions/torphes:v$version
-    - docker push registry.gitlab.com/andret-discord-solutions/torphes:v$version
+    - docker build -t $name .
+    - docker tag $name:latest $name:v$version
+    - docker push $name:v$version
 #  rules:
 #    - if: '$CI_COMMIT_BRANCH == "master"'
 #      when: manual
