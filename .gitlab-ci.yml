@@ -32,7 +32,8 @@ docker:
     - docker build -t $name .
     - docker tag $name:latest $name:v$version
     - docker push $name:v$version
-#  rules:
-#    - if: '$CI_COMMIT_BRANCH == "master"'
-#      when: manual
-#    - when: never
+    - docker push $name:latest
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "master"'
+      when: manual
+    - when: never
