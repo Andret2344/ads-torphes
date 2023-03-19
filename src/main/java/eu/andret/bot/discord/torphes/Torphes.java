@@ -1,6 +1,7 @@
 package eu.andret.bot.discord.torphes;
 
 import eu.andret.bot.discord.torphes.command.EnterCommand;
+import eu.andret.bot.discord.torphes.guild.GuildsCountListener;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
@@ -21,6 +22,7 @@ public class Torphes {
 		final JDA jda = JDABuilder.createLight(properties.getProperty("app.token"), Collections.emptyList())
 				.setStatus(OnlineStatus.DO_NOT_DISTURB)
 				.addEventListeners(new EnterCommand())
+				.addEventListeners(new GuildsCountListener())
 				.build();
 
 		jda.updateCommands().addCommands(Commands
