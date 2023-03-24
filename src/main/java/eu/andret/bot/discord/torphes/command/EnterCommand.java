@@ -16,10 +16,11 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class EnterCommand extends ListenerAdapter {
+	private static final String SELF_ID = "606928324970938389";
+
 	@Override
 	public void onSlashCommandInteraction(@NotNull final SlashCommandInteractionEvent event) {
 		if (!event.getName().equals("enter")) {
-			event.reply("Huh?").queue();
 			return;
 		}
 		event.deferReply().queue();
@@ -81,7 +82,7 @@ public class EnterCommand extends ListenerAdapter {
 				.getIterableHistory()
 				.stream()
 				.filter(message -> message.getTimeCreated().isAfter(getDate()))
-				.filter(message -> !message.getAuthor().getId().equals("606928324970938389"))
+				.filter(message -> !message.getAuthor().getId().equals(SELF_ID))
 				.toList();
 	}
 
