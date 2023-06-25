@@ -15,7 +15,7 @@ import java.io.InputStream;
 import java.util.Collections;
 import java.util.Properties;
 
-public class Torphes {
+public final class Torphes {
 	public static void main(final String[] args) throws IOException {
 		final Properties properties = loadProperties();
 
