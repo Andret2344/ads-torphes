@@ -10,7 +10,8 @@ repositories {
 
 dependencies {
     implementation("org.slf4j:slf4j-jdk14:2.0.6")
-    implementation("net.dv8tion:JDA:5.0.0-beta.11")
+    implementation("net.dv8tion:JDA:5.2.0")
+    implementation("com.google.code.gson:gson:2.11.0")
 }
 
 application {
