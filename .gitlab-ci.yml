@@ -1,8 +1,9 @@
-image: gradle:8-jdk17
+image: gradle:8-jdk21
 
 variables:
-  version: 0.1.0
-  name: registry.gitlab.com/andret-discord-solutions/torphes
+  CURRENT: 0.1.0
+  RELEASE_IMAGE_CURRENT: $CI_REGISTRY_IMAGE:v$CURRENT
+  RELEASE_IMAGE_LATEST: $CI_REGISTRY_IMAGE:latest
 
 stages:
   - build
@@ -28,11 +29,12 @@ docker:
   dependencies:
     - gradle
   script:
-    - docker login registry.gitlab.com -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-    - docker build -t $name .
-    - docker tag $name:latest $name:v$version
-    - docker push $name:v$version
-    - docker push $name:latest
+    - echo "$CI_REGISTRY_PASSWORD" | docker login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin
+    - docker build -t $RELEASE_IMAGE_CURRENT .
+    - docker tag $RELEASE_IMAGE_CURRENT $RELEASE_IMAGE_CURRENT
+    - docker push $RELEASE_IMAGE_CURRENT
+    - docker tag $RELEASE_IMAGE_CURRENT $RELEASE_IMAGE_LATEST
+    - docker push $RELEASE_IMAGE_LATEST
   rules:
     - if: '$CI_COMMIT_BRANCH == "master"'
       when: manual

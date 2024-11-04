@@ -53,15 +53,15 @@ public class EnterCommand extends ListenerAdapter {
 			if (author.equals(current)) {
 				count++;
 			} else {
-				if (current != null && result.getOrDefault(current.getAsTag(), 0L) < count) {
-					result.put(current.getAsTag(), count);
+				if (current != null && result.getOrDefault(current.getName(), 0L) < count) {
+					result.put(current.getName(), count);
 				}
 				current = author;
 				count = 1;
 			}
 		}
-		if (current != null && result.getOrDefault(current.getAsTag(), 0L) < count) {
-			result.put(current.getAsTag(), count);
+		if (current != null && result.getOrDefault(current.getName(), 0L) < count) {
+			result.put(current.getName(), count);
 		}
 		return formatMapToText(result);
 	}
@@ -88,7 +88,7 @@ public class EnterCommand extends ListenerAdapter {
 
 	@NotNull
 	public String formatUserFromMessage(@NotNull final Message message) {
-		return message.getAuthor().getAsTag();
+		return message.getAuthor().getName();
 	}
 
 	@NotNull
