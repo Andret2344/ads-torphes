@@ -1,6 +1,7 @@
 package eu.andret.bot.discord.torphes;
 
 import eu.andret.bot.discord.torphes.command.EnterCommand;
+import eu.andret.bot.discord.torphes.command.HolidayCommand;
 import eu.andret.bot.discord.torphes.guild.GuildsCountListener;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -15,19 +16,25 @@ import java.io.InputStream;
 import java.util.Collections;
 import java.util.Properties;
 
-public class Torphes {
+public final class Torphes {
 	public static void main(final String[] args) throws IOException {
 		final Properties properties = loadProperties();
 
 		final JDA jda = JDABuilder.createLight(properties.getProperty("app.token"), Collections.emptyList())
 				.setStatus(OnlineStatus.DO_NOT_DISTURB)
 				.addEventListeners(new EnterCommand())
+				.addEventListeners(new HolidayCommand())
 				.addEventListeners(new GuildsCountListener())
 				.build();
 
-		jda.updateCommands().addCommands(Commands
-						.slash("enter", "Count how many messages and subsequent messages users sent today")
-						.setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.VIEW_CHANNEL)))
+		jda.updateCommands()
+				.addCommands(
+						Commands
+								.slash("enter", "Count how many messages and subsequent messages users sent today")
+								.setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.VIEW_CHANNEL)),
+						Commands
+								.slash("holiday", "Get random today holiday")
+								.setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.VIEW_CHANNEL)))
 				.queue();
 	}
 

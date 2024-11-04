@@ -1,8 +1,15 @@
 /sonarlint/
 /modules/
+/shelf/
 
+/compiler.xml
+/discord.xml
 /gradle.xml
+/git_toolbox_blame.xml
+/git_toolbox_prj.xml
 /intellij-javadocs-4.0.1.xml
 /jarRepositories.xml
 /jpa-buddy.xml
+/misc.xml
+/torphes.iml
 /workspace.xml
