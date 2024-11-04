@@ -19,7 +19,19 @@ application {
 }
 
 tasks {
-    withType<JavaExec> {
-        mainClass = "eu.andret.bot.discord.torphes.Torphes"
+    jar {
+        duplicatesStrategy = DuplicatesStrategy.WARN
+
+        into("resources") {
+            from("resources")
+        }
+
+        from({
+            configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) }
+        })
+
+        manifest {
+            attributes["Main-Class"] = "eu.andret.bot.discord.torphes.Torphes"
+        }
     }
 }
