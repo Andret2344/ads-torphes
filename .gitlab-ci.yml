@@ -36,6 +36,6 @@ docker:
     - docker tag $RELEASE_IMAGE_CURRENT $RELEASE_IMAGE_LATEST
     - docker push $RELEASE_IMAGE_LATEST
   rules:
-    - if: '$CI_COMMIT_BRANCH == "master"'
+    - if: '$CI_COMMIT_BRANCH == "main"'
       when: manual
     - when: never
