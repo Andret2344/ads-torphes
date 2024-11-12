@@ -18,7 +18,7 @@ import java.util.concurrent.CompletableFuture;
 
 public class DailyQuoteCommand extends ListenerAdapter {
 	private static final Gson GSON = new Gson();
-	private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+	private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
 	@Override
 	public void onSlashCommandInteraction(@NotNull final SlashCommandInteractionEvent event) {
@@ -32,8 +32,8 @@ public class DailyQuoteCommand extends ListenerAdapter {
 					final String date = localDate.format(FORMATTER);
 					event.getHook().editOriginal("")
 							.setEmbeds(new EmbedBuilder()
-									.setTitle("Daily Quote - " + date)
-									.setDescription(quoteResponse.content())
+									.setTitle(quoteResponse.content())
+									.setDescription("Daily Quote • " + date)
 									.setColor(Color.orange)
 									.build())
 							.queue();
