@@ -6,6 +6,8 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
@@ -17,12 +19,14 @@ import java.util.stream.Collectors;
 
 public class EnterCommand extends ListenerAdapter {
 	private static final String SELF_ID = "606928324970938389";
+	private static final Logger LOGGER = LoggerFactory.getLogger(EnterCommand.class);
 
 	@Override
 	public void onSlashCommandInteraction(@NotNull final SlashCommandInteractionEvent event) {
 		if (!event.getName().equals("enter")) {
 			return;
 		}
+		LOGGER.info("Executed command: /enter");
 		event.deferReply().queue();
 		final List<Message> messages = getTodayMessages(event);
 		if (messages.isEmpty()) {

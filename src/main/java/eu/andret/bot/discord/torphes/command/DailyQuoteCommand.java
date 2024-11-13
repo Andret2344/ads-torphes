@@ -6,6 +6,8 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.awt.Color;
 import java.net.URI;
@@ -18,12 +20,14 @@ import java.util.concurrent.CompletableFuture;
 
 public class DailyQuoteCommand extends ListenerAdapter {
 	private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+	private static final Logger LOGGER = LoggerFactory.getLogger(DailyQuoteCommand.class);
 
 	@Override
 	public void onSlashCommandInteraction(@NotNull final SlashCommandInteractionEvent event) {
 		if (!event.getName().equals("quote")) {
 			return;
 		}
+		LOGGER.info("Executed command: /quote");
 		event.deferReply().queue();
 		executeRequest()
 				.thenAccept(quoteResponse -> {
