@@ -1,6 +1,6 @@
 package eu.andret.bot.discord.torphes.command;
 
-import com.google.gson.Gson;
+import eu.andret.bot.discord.torphes.Torphes;
 import eu.andret.bot.discord.torphes.entity.Holiday;
 import eu.andret.bot.discord.torphes.entity.HolidayResponse;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -18,8 +18,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.concurrent.CompletableFuture;
 
 public class HolidayCommand extends ListenerAdapter {
-	private static final Gson GSON = new Gson();
-
 	@Override
 	public void onSlashCommandInteraction(@NotNull final SlashCommandInteractionEvent event) {
 		if (!event.getName().equals("holiday")) {
@@ -50,7 +48,7 @@ public class HolidayCommand extends ListenerAdapter {
 				.build();
 		return client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
 				.thenApply(HttpResponse::body)
-				.thenApply(responseBody -> GSON.fromJson(responseBody, HolidayResponse.class));
+				.thenApply(responseBody -> Torphes.GSON.fromJson(responseBody, HolidayResponse.class));
 
 	}
 }

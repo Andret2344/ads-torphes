@@ -1,6 +1,6 @@
 package eu.andret.bot.discord.torphes.command;
 
-import com.google.gson.Gson;
+import eu.andret.bot.discord.torphes.Torphes;
 import eu.andret.bot.discord.torphes.entity.QuoteResponse;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -17,8 +17,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.concurrent.CompletableFuture;
 
 public class DailyQuoteCommand extends ListenerAdapter {
-	private static final Gson GSON = new Gson();
-	private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+	private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
 	@Override
 	public void onSlashCommandInteraction(@NotNull final SlashCommandInteractionEvent event) {
@@ -45,11 +44,10 @@ public class DailyQuoteCommand extends ListenerAdapter {
 		final HttpClient client = HttpClient.newHttpClient();
 		final LocalDate now = LocalDate.now();
 		final HttpRequest request = HttpRequest.newBuilder()
-				.uri(URI.create(String.format("https://dailyquote.andret.eu/pl/json/%s", now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))))
+				.uri(URI.create(String.format("https://dailyquote.andret.eu/pl/json/%s", now.format(FORMATTER))))
 				.build();
 		return client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
 				.thenApply(HttpResponse::body)
-				.thenApply(responseBody -> GSON.fromJson(responseBody, QuoteResponse.class));
-
+				.thenApply(responseBody -> Torphes.GSON.fromJson(responseBody, QuoteResponse.class));
 	}
 }

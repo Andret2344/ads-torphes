@@ -1,4 +1,6 @@
 package eu.andret.bot.discord.torphes.entity;
 
-public record QuoteResponse(String content) {
+import org.jetbrains.annotations.NotNull;
+
+public record QuoteResponse(@NotNull String content) {
 }
