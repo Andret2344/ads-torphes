@@ -1,5 +1,7 @@
 package eu.andret.bot.discord.torphes;
 
+import com.google.gson.Gson;
+import eu.andret.bot.discord.torphes.command.DailyQuoteCommand;
 import eu.andret.bot.discord.torphes.command.EnterCommand;
 import eu.andret.bot.discord.torphes.command.HolidayCommand;
 import eu.andret.bot.discord.torphes.guild.GuildsCountListener;
@@ -17,6 +19,8 @@ import java.util.Collections;
 import java.util.Properties;
 
 public final class Torphes {
+	public static final Gson GSON = new Gson();
+
 	public static void main(final String[] args) throws IOException {
 		final Properties properties = loadProperties();
 
@@ -25,6 +29,7 @@ public final class Torphes {
 				.addEventListeners(new EnterCommand())
 				.addEventListeners(new HolidayCommand())
 				.addEventListeners(new GuildsCountListener())
+				.addEventListeners(new DailyQuoteCommand())
 				.build();
 
 		jda.updateCommands()
@@ -34,6 +39,9 @@ public final class Torphes {
 								.setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.VIEW_CHANNEL)),
 						Commands
 								.slash("holiday", "Get random today holiday")
+								.setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.VIEW_CHANNEL)),
+						Commands
+								.slash("quote", "Get today quote")
 								.setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.VIEW_CHANNEL)))
 				.queue();
 	}
