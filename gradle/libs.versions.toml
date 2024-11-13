@@ -1,0 +1,9 @@
+[versions]
+slf4j = "2.0.6"
+jda = "5.2.0"
+gson = "2.11.0"
+
+[libraries]
+slf4j = { module = "org.slf4j:slf4j-jdk14", version.ref = "slf4j" }
+jda = { module = "net.dv8tion:JDA", version.ref = "jda" }
+gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
