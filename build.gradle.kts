@@ -19,6 +19,11 @@ application {
 }
 
 tasks {
+    compileJava {
+        sourceCompatibility = JavaVersion.VERSION_21.toString()
+        targetCompatibility = JavaVersion.VERSION_21.toString()
+    }
+
     jar {
         duplicatesStrategy = DuplicatesStrategy.WARN
 
@@ -27,7 +32,7 @@ tasks {
         })
 
         manifest {
-            attributes["Main-Class"] = "eu.andret.bot.discord.torphes.Torphes"
+            attributes["Main-Class"] = application.mainClass.get()
         }
     }
 }

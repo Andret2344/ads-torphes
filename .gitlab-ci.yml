@@ -1,4 +1,4 @@
-image: gradle:8-jdk17
+image: gradle:8-jdk21
 
 variables:
   CURRENT: 0.1.1
