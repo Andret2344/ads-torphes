@@ -1,4 +1,6 @@
 package eu.andret.bot.discord.torphes.entity;
 
-public record Holiday(int id, boolean usual, String name, String description, String url) {
+import org.jetbrains.annotations.NotNull;
+
+public record Holiday(int id, boolean usual, @NotNull String name, @NotNull String description, @NotNull String url) {
 }

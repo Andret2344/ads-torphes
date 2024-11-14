@@ -26,6 +26,7 @@ public class HolidayCommand extends ListenerAdapter {
 
 	@Override
 	public void onSlashCommandInteraction(@NotNull final SlashCommandInteractionEvent event) {
+		LOGGER.debug("Slash command: HolidayCommand");
 		if (!event.getName().equals("holiday")) {
 			return;
 		}
@@ -33,8 +34,10 @@ public class HolidayCommand extends ListenerAdapter {
 		event.deferReply().queue();
 		final LocalDate now = LocalDate.now();
 		final String url = String.format("https://api.unusualcalendar.net/v2/holiday/pl/day/%d/%d", now.getMonthValue(), now.getDayOfMonth());
+		LOGGER.debug("Requesting URL: {}", url);
 		requestor.executeRequest(url, HolidayResponse.class)
 				.thenAccept(holidayResponse -> {
+					LOGGER.debug("Response: {}", holidayResponse);
 					final LocalDate localDate = LocalDate.of(Year.now().getValue(), holidayResponse.month(), holidayResponse.day());
 					final String date = localDate.format(FORMATTER);
 					final Holiday holiday = holidayResponse.randomHoliday();

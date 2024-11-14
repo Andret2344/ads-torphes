@@ -25,6 +25,7 @@ public class DailyQuoteCommand extends ListenerAdapter {
 
 	@Override
 	public void onSlashCommandInteraction(@NotNull final SlashCommandInteractionEvent event) {
+		LOGGER.debug("Slash command: DailyQuoteCommand");
 		if (!event.getName().equals("quote")) {
 			return;
 		}
@@ -32,8 +33,10 @@ public class DailyQuoteCommand extends ListenerAdapter {
 		event.deferReply().queue();
 		final LocalDate now = LocalDate.now();
 		final String url = String.format("https://dailyquote.andret.eu/pl/json/%s", now.format(FORMATTER));
+		LOGGER.debug("Requesting URL: {}", url);
 		requestor.executeRequest(url, QuoteResponse.class)
 				.thenAccept(quoteResponse -> {
+					LOGGER.debug("Response: {}", quoteResponse);
 					final LocalDate localDate = LocalDate.now();
 					final String date = localDate.format(FORMATTER);
 					event.getHook().editOriginal("")

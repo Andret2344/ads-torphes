@@ -1,5 +1,5 @@
-FROM openjdk:17
+FROM openjdk:21-alpine
 LABEL org.opencontainers.image.authors="Andret2344"
 WORKDIR /app
-COPY build/libs/torphes-*.jar torphes.jar
+COPY build/libs/torphes.jar torphes.jar
 ENTRYPOINT ["java", "-jar", "/torphes.jar"]

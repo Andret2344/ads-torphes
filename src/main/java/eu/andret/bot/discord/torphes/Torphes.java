@@ -11,6 +11,8 @@ import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.core.config.Configurator;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -23,6 +25,7 @@ public final class Torphes {
 
 	public static void main(final String[] args) throws IOException {
 		final Properties properties = loadProperties();
+		Configurator.setRootLevel(Level.toLevel(properties.getProperty("logger.level"), Level.INFO));
 
 		final JDA jda = JDABuilder.createLight(properties.getProperty("app.token"), Collections.emptyList())
 				.setStatus(OnlineStatus.DO_NOT_DISTURB)

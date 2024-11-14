@@ -9,9 +9,12 @@ repositories {
 }
 
 dependencies {
-    implementation(libs.slf4j)
     implementation(libs.jda)
     implementation(libs.gson)
+    // logging
+    implementation(libs.slf4j.api)
+    implementation(libs.log4j.slf4j.impl)
+    implementation(libs.log4j.core)
 }
 
 application {
