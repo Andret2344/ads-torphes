@@ -23,6 +23,7 @@ public class EnterCommand extends ListenerAdapter {
 
 	@Override
 	public void onSlashCommandInteraction(@NotNull final SlashCommandInteractionEvent event) {
+		LOGGER.debug("Slash command: HolidayCommand");
 		if (!event.getName().equals("enter")) {
 			return;
 		}
