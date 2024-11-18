@@ -18,7 +18,7 @@ dependencies {
 }
 
 application {
-    mainClass.set("eu.andret.bot.discord.torphes.Torphes")
+    mainClass.set("eu.andret.ads.torphes.Torphes")
 }
 
 tasks {

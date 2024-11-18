@@ -1,15 +1,17 @@
-package eu.andret.bot.discord.torphes;
+package eu.andret.ads.torphes;
 
-import eu.andret.bot.discord.torphes.command.DailyQuoteCommand;
-import eu.andret.bot.discord.torphes.command.EnterCommand;
-import eu.andret.bot.discord.torphes.command.HolidayCommand;
-import eu.andret.bot.discord.torphes.guild.GuildsCountListener;
-import eu.andret.bot.discord.torphes.util.Requestor;
+import eu.andret.ads.torphes.command.DailyQuoteCommand;
+import eu.andret.ads.torphes.command.EnterCommand;
+import eu.andret.ads.torphes.command.HolidayCommand;
+import eu.andret.ads.torphes.command.QuestionCommand;
+import eu.andret.ads.torphes.guild.GuildsCountListener;
+import eu.andret.ads.torphes.util.Requestor;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
+import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.core.config.Configurator;
@@ -33,6 +35,7 @@ public final class Torphes {
 				.addEventListeners(new HolidayCommand(REQUESTOR))
 				.addEventListeners(new GuildsCountListener())
 				.addEventListeners(new DailyQuoteCommand(REQUESTOR))
+				.addEventListeners(new QuestionCommand(REQUESTOR))
 				.build();
 
 		jda.updateCommands()
@@ -45,6 +48,11 @@ public final class Torphes {
 								.setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.VIEW_CHANNEL)),
 						Commands
 								.slash("quote", "Get today quote")
+								.setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.VIEW_CHANNEL)),
+						Commands
+								.slash("question", "Get a question from the database")
+								.addOption(OptionType.STRING, "advancement", "One of: BASIC, MEDIUM, EXPERT (case insensitive).")
+								.addOption(OptionType.STRING, "category", "One of: General, Java language, Java software, Design patterns, Spring  (case insensitive).")
 								.setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.VIEW_CHANNEL)))
 				.queue();
 	}

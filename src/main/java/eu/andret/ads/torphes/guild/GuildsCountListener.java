@@ -1,4 +1,4 @@
-package eu.andret.bot.discord.torphes.guild;
+package eu.andret.ads.torphes.guild;
 
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Activity;

@@ -1,7 +1,8 @@
-package eu.andret.bot.discord.torphes.command;
+package eu.andret.ads.torphes.command;
 
-import eu.andret.bot.discord.torphes.entity.QuoteResponse;
-import eu.andret.bot.discord.torphes.util.Requestor;
+import com.google.gson.reflect.TypeToken;
+import eu.andret.ads.torphes.entity.QuoteResponse;
+import eu.andret.ads.torphes.util.Requestor;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -34,7 +35,7 @@ public class DailyQuoteCommand extends ListenerAdapter {
 		final LocalDate now = LocalDate.now();
 		final String url = String.format("https://dailyquote.andret.eu/pl/json/%s", now.format(FORMATTER));
 		LOGGER.debug("Requesting URL: {}", url);
-		requestor.executeRequest(url, QuoteResponse.class)
+		requestor.executeRequest(url, TypeToken.get(QuoteResponse.class))
 				.thenAccept(quoteResponse -> {
 					LOGGER.debug("Response: {}", quoteResponse);
 					final LocalDate localDate = LocalDate.now();
