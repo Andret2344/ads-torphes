@@ -1,5 +1,6 @@
 package eu.andret.bot.discord.torphes.command;
 
+import com.google.gson.reflect.TypeToken;
 import eu.andret.bot.discord.torphes.entity.Holiday;
 import eu.andret.bot.discord.torphes.entity.HolidayResponse;
 import eu.andret.bot.discord.torphes.util.Requestor;
@@ -35,7 +36,7 @@ public class HolidayCommand extends ListenerAdapter {
 		final LocalDate now = LocalDate.now();
 		final String url = String.format("https://api.unusualcalendar.net/v2/holiday/pl/day/%d/%d", now.getMonthValue(), now.getDayOfMonth());
 		LOGGER.debug("Requesting URL: {}", url);
-		requestor.executeRequest(url, HolidayResponse.class)
+		requestor.executeRequest(url, TypeToken.get(HolidayResponse.class))
 				.thenAccept(holidayResponse -> {
 					LOGGER.debug("Response: {}", holidayResponse);
 					final LocalDate localDate = LocalDate.of(Year.now().getValue(), holidayResponse.month(), holidayResponse.day());
