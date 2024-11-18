@@ -1,4 +1,4 @@
-package eu.andret.bot.discord.torphes.entity;
+package eu.andret.ads.torphes.entity;
 
 public enum Advancement {
 	BASIC,

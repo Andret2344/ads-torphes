@@ -1,4 +1,4 @@
-package eu.andret.bot.discord.torphes.util;
+package eu.andret.ads.torphes.util;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;

@@ -1,4 +1,4 @@
-package eu.andret.bot.discord.torphes.entity;
+package eu.andret.ads.torphes.entity;
 
 import org.jetbrains.annotations.NotNull;
 

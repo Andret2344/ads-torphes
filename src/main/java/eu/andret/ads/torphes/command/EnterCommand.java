@@ -1,4 +1,4 @@
-package eu.andret.bot.discord.torphes.command;
+package eu.andret.ads.torphes.command;
 
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;

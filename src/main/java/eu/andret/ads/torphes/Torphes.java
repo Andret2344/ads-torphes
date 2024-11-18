@@ -1,11 +1,11 @@
-package eu.andret.bot.discord.torphes;
+package eu.andret.ads.torphes;
 
-import eu.andret.bot.discord.torphes.command.DailyQuoteCommand;
-import eu.andret.bot.discord.torphes.command.EnterCommand;
-import eu.andret.bot.discord.torphes.command.HolidayCommand;
-import eu.andret.bot.discord.torphes.command.QuestionCommand;
-import eu.andret.bot.discord.torphes.guild.GuildsCountListener;
-import eu.andret.bot.discord.torphes.util.Requestor;
+import eu.andret.ads.torphes.command.DailyQuoteCommand;
+import eu.andret.ads.torphes.command.EnterCommand;
+import eu.andret.ads.torphes.command.HolidayCommand;
+import eu.andret.ads.torphes.command.QuestionCommand;
+import eu.andret.ads.torphes.guild.GuildsCountListener;
+import eu.andret.ads.torphes.util.Requestor;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;

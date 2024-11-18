@@ -1,10 +1,10 @@
-package eu.andret.bot.discord.torphes.command;
+package eu.andret.ads.torphes.command;
 
 import com.google.gson.reflect.TypeToken;
-import eu.andret.bot.discord.torphes.entity.Advancement;
-import eu.andret.bot.discord.torphes.entity.Answer;
-import eu.andret.bot.discord.torphes.entity.Question;
-import eu.andret.bot.discord.torphes.util.Requestor;
+import eu.andret.ads.torphes.entity.Advancement;
+import eu.andret.ads.torphes.entity.Answer;
+import eu.andret.ads.torphes.entity.Question;
+import eu.andret.ads.torphes.util.Requestor;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
