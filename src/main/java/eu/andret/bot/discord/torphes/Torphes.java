@@ -51,7 +51,8 @@ public final class Torphes {
 								.setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.VIEW_CHANNEL)),
 						Commands
 								.slash("question", "Get a question from the database")
-								.addOption(OptionType.STRING, "advancement", "One of: BASIC, MEDIUM, EXPERT")
+								.addOption(OptionType.STRING, "advancement", "One of: BASIC, MEDIUM, EXPERT (case insensitive).")
+								.addOption(OptionType.STRING, "category", "One of: General, Java language, Java software, Design patterns, Spring  (case insensitive).")
 								.setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.VIEW_CHANNEL)))
 				.queue();
 	}

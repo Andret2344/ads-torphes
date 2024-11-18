@@ -56,15 +56,25 @@ public class QuestionCommand extends ListenerAdapter {
 		final TypeToken<List<Question>> typeToken = (TypeToken<List<Question>>) TypeToken.getParameterized(List.class, Question.class);
 		requestor.executeRequest(url, typeToken)
 				.thenAccept(questions -> {
-					LOGGER.debug("Response: {}", questions);
-					final List<Question> questionList = getQuestion(event, questions);
+					LOGGER.debug("Response: {} questions", questions.size());
+					final String advancement = event.getOption("advancement", null, OptionMapping::getAsString);
+					final String category = event.getOption("category", null, OptionMapping::getAsString);
+					LOGGER.debug("advancement: {}, category: {}", advancement, category);
+					final List<Question> questionList = getQuestion(questions, advancement, category);
+					LOGGER.debug("Filtered: {} questions", questionList.size());
 					final Question question = questionList.get(RANDOM.nextInt(questionList.size()));
 					event.getHook().editOriginal("")
 							.setEmbeds(getQuestionEmbed(question))
 							.setComponents(ActionRow.of(getComponents()))
 							.queue(message -> {
 								messages.put(message.getId(), question);
-								executorService.schedule(() -> messages.remove(message.getId()), 2, TimeUnit.HOURS);
+								executorService.schedule(() -> {
+									event.getHook()
+											.editOriginal("")
+											.setComponents()
+											.queue();
+									messages.remove(message.getId());
+								}, 2, TimeUnit.HOURS);
 							});
 				});
 	}
@@ -92,20 +102,15 @@ public class QuestionCommand extends ListenerAdapter {
 	}
 
 	@NotNull
-	private static List<Question> getQuestion(@NotNull final SlashCommandInteractionEvent event, @NotNull final List<Question> questions) {
-		final String option = event.getOption("advancement", null, OptionMapping::getAsString);
-		if (option == null) {
-			return questions;
-		}
+	private static List<Question> getQuestion(@NotNull final List<Question> questions, @Nullable final String advancementOption, @Nullable final String categoryOption) {
 		final Advancement advancement = Arrays.stream(Advancement.values())
-				.filter(x -> option.equals(x.name()))
+				.filter(adv -> adv.name().equalsIgnoreCase(advancementOption))
 				.findFirst()
 				.orElse(null);
-		if (advancement == null) {
-			return questions;
-		}
+		LOGGER.debug("Decoded advancement: {}", advancement);
 		return questions.stream()
-				.filter(x -> x.advancement().equals(advancement))
+				.filter(question -> advancement == null || question.advancement().equals(advancement)
+						&& categoryOption == null || question.category().equalsIgnoreCase(categoryOption))
 				.toList();
 	}
 
@@ -113,7 +118,8 @@ public class QuestionCommand extends ListenerAdapter {
 	private static MessageEmbed getQuestionEmbed(@NotNull final Question question) {
 		final StringBuilder stringBuilder = new StringBuilder();
 		for (int i = 0; i < question.answers().size(); i++) {
-			stringBuilder.append((char) ('A' + i))
+			stringBuilder.append("* ")
+					.append((char) ('A' + i))
 					.append(". ")
 					.append(question.answers().get(i).text())
 					.append("\n");
