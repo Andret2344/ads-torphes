@@ -205,12 +205,12 @@ public class QuestionCommand extends ListenerAdapter {
 	@Override
 	public void onCommandAutoCompleteInteraction(@NotNull final CommandAutoCompleteInteractionEvent event) {
 		if (event.getName().equals(QUESTION)) {
-			event.replyChoices(getQuestionAutocomplete(event)).queue();
+			event.replyChoices(getQuestionAutoComplete(event)).queue();
 		}
 	}
 
 	@NotNull
-	private List<Command.Choice> getQuestionAutocomplete(@NotNull final CommandAutoCompleteInteractionEvent event) {
+	private List<Command.Choice> getQuestionAutoComplete(@NotNull final CommandAutoCompleteInteractionEvent event) {
 		if (event.getFocusedOption().getName().equals("advancement")) {
 			return Stream.of(Advancement.values())
 					.map(Enum::name)
