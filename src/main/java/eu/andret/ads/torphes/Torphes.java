@@ -35,8 +35,8 @@ public final class Torphes {
 				.addEventListeners(new HolidayCommand(REQUESTOR))
 				.addEventListeners(new GuildsCountListener())
 				.addEventListeners(new DailyQuoteCommand(REQUESTOR))
-				.addEventListeners(new QuestionCommand(REQUESTOR))
 				.build();
+		jda.addEventListener(new QuestionCommand(jda, REQUESTOR));
 
 		jda.updateCommands()
 				.addCommands(
@@ -51,8 +51,8 @@ public final class Torphes {
 								.setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.VIEW_CHANNEL)),
 						Commands
 								.slash("question", "Get a question from the database")
-								.addOption(OptionType.STRING, "advancement", "One of: BASIC, MEDIUM, EXPERT (case insensitive).")
-								.addOption(OptionType.STRING, "category", "One of: General, Java language, Java software, Design patterns, Spring  (case insensitive).")
+								.addOption(OptionType.STRING, "advancement", "What should be the question difficulty?", false, true)
+								.addOption(OptionType.STRING, "category", "What should the question be about?", false, true)
 								.setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.VIEW_CHANNEL)))
 				.queue();
 	}
