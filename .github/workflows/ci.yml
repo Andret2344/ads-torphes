@@ -31,7 +31,6 @@ jobs:
         run: chmod u+x gradlew*
 
       - name: Write config.properties (opcjonalnie z secretu)
-        if: ${{ secrets.CONFIG_PROPERTIES != '' }}
         run: printf "%s" "${{ secrets.CONFIG_PROPERTIES }}" > src/main/resources/config.properties
 
       - name: Build
