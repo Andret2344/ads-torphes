@@ -1,8 +1,8 @@
 [versions]
 slf4j = "2.0.17"
-log4j = "2.24.3"
-jda = "5.3.2"
-gson = "2.12.1"
+log4j = "2.25.1"
+jda = "5.6.1"
+gson = "2.13.1"
 
 [libraries]
 slf4j-api = { group = "org.slf4j", name = "slf4j-api", version.ref = "slf4j" }
