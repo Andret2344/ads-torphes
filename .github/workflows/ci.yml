@@ -87,7 +87,7 @@ jobs:
   docker-publish:
     name: Publish Docker image
     runs-on: ubuntu-latest
-    needs: [ build ]
+    needs: [ prepare, build ]
     if: ${{ needs.prepare.outputs.IS_TAG == 'true'}}
     permissions:
       contents: read
