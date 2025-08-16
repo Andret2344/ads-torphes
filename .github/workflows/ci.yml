@@ -12,9 +12,27 @@ env:
   IMAGE: ${{ github.repository }}
 
 jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    outputs:
+      VERSION: ${{ steps.ref.outputs.VERSION }}
+      IS_TAG: ${{ steps.ref.outputs.IS_TAG }}
+    steps:
+      - id: ref
+        shell: bash
+        run: |
+          if [[ "${GITHUB_REF}" == refs/tags/v* ]]; then
+            echo "VERSION=${GITHUB_REF#refs/tags/}" >> "$GITHUB_OUTPUT"
+            echo "IS_TAG=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "VERSION=" >> "$GITHUB_OUTPUT"
+            echo "IS_TAG=false" >> "$GITHUB_OUTPUT"
+          fi
+
   build:
     name: Build with JDK ${{ matrix.java }}
     runs-on: ubuntu-latest
+    needs: [ prepare ]
     strategy:
       matrix:
         java: [ 21 ]
@@ -40,14 +58,14 @@ jobs:
       - name: Upload JARs
         uses: actions/upload-artifact@v4
         with:
-          name: artifacts-java-${{ github.ref_name }}
+          name: artifacts-java-${{ needs.prepare.outputs.VERSION }}
           path: build/libs/*.jar
 
   release:
     name: Create a release ${{ github.ref_name }} and attach JARs
-    if: startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
-    needs: [ build ]
+    needs: [ prepare, build ]
+    if: ${{ needs.prepare.outputs.IS_TAG == 'true' }}
     permissions:
       contents: write
     steps:
@@ -68,9 +86,9 @@ jobs:
 
   docker-publish:
     name: Publish Docker image
-    # if: startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
     needs: [ build ]
+    # if: ${{ needs.prepare.outputs.IS_TAG == 'true'}}
     permissions:
       contents: read
       packages: write
@@ -80,7 +98,7 @@ jobs:
       - name: Download JAR artifact
         uses: actions/download-artifact@v4
         with:
-          name: artifacts-java-${{ github.ref_name }}
+          name: artifacts-java-${{ needs.prepare.outputs.VERSION }}
           path: build/libs
 
       - name: Log in to GHCR
@@ -100,8 +118,10 @@ jobs:
         with:
           images: ghcr.io/${{ env.IMAGE }}
           tags: |
-            type=raw,value=${{ steps.v.outputs.VERSION }}
+            type=raw,value=${{ needs.prepare.outputs.VERSION }}
             type=raw,value=latest
+          labels: |
+            org.opencontainers.image.version=${{ needs.prepare.outputs.VERSION }}
 
       - name: Build & push image
         uses: docker/build-push-action@v6
